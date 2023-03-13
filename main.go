@@ -23,6 +23,12 @@ func main() {
 			"msg": "Hello World",
 		})
 	})
+
+	app.Get("/test", func(c *fiber.Ctx) error {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"msg": "TEST",
+		})
+	})
 	// app.Get("/", func(c *fiber.Ctx) error {
 	// 	_, err := minioUpload.MinioConnection()
 	// 	if err != nil {
