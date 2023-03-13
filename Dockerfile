@@ -1,17 +1,24 @@
-FROM golang:1.18-alpine
-
-WORKDIR /app
-
-COPY go.mod ./
-
-COPY go.sum ./
-
+#build stage
+FROM golang:alpine AS builder
+RUN apk add --no-cache git
+WORKDIR /go/src/app
+COPY *.mod .
+COPY *.go .
+COPY *.yaml .
+COPY *.json .
 RUN go mod download
+COPY . .
+COPY config.yaml .
 
-COPY *.go ./
+RUN go get -d -v ./ .
+RUN go build -o /go/bin/app -v ./ .
 
-RUN go build -o /main
+#final stage
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
 
-EXPOSE 8080
+COPY --from=builder /go/bin/app /app
+COPY --from=builder /go/src/app/config.yaml .
 
-CMD ["/main"]
+EXPOSE 9922
+CMD ["/app"]
