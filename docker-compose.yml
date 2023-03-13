@@ -1,0 +1,7 @@
+version: '3.4'
+services:
+  dev:
+    image: souny007/golang-minio:latest
+    restart: always
+    ports:
+      - 3002:3002
