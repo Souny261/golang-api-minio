@@ -15,4 +15,5 @@ go get github.com/minio/minio-go/v7# golang-api-minio
 - create dockerfile
 - git push and waiting for git action to run code
 - remote to server 
-- login to 
+- login to dockerup and pull container
+- cretae docker compose to run containner
